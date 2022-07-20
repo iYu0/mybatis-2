@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pj.mapper.Usermapper">
+
+    <select id="getall" resultType="users">
+        select id,username,birthday,sex,address
+        from ssm
+    </select>
+
+    <update id="update" parameterType="users">
+        update ssm set username=#{username},birthday=#{birthday},sex=#{sex},address=#{address}
+        where id=#{id}
+    </update>
+
+    <select id="findbyid" parameterType="int" resultType="users">
+        select id,username,birthday,sex,address
+        from ssm
+        where id=#{id}
+    </select>
+
+    <select id="getbynamegood" parameterType="String" resultType="users">
+        select id,username,birthday,sex,address
+        from ssm
+        where ${columnName} like concat('%',#{columnValue},'%')
+    </select>
+
+    <insert id="insert"  parameterType="users">
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into ssm (username,birthday,sex,address) values (#{username},#{birthday},#{sex},#{address})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        delete from ssm
+        where id
+    </delete>
+</mapper>
